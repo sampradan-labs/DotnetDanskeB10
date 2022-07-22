@@ -1,0 +1,22 @@
+Steps to integrate webapi with  Sql DBMS
+
+1. Create a controller with option "Actions using Entity Framework"
+2. If errors occur, resolve them by installing the correct dependencies from nuget pkg manager
+3. In AppSettings.json-> ConnectionString option give a value for Database="Name"
+4. Initiate the migration to DB. This step will create the db schema, table schema as per your  model classes
+	a. Commands using Package Manager Console
+		> Add-Migration
+		> Update-Database
+	b. If step (a) fails, then
+		> Open command prompt and navigate to project directory
+			> dotnet tool install --global dotnet-ef --version <versionNumber>
+			> dotnet ef migrations add v1
+			> dotnet ef database update
+5. The point of contact with DB is the Context Class that you created. Eg: FirstApiContext.
+   This is the class that inherits from DBContext
+6. In the controller, inject the context class in the constructor.
+7. Refer to demo for fetching, adding and changing data in database.
+	Eg: To fetch: context.<DBSetProperty>.ToList()
+            To add: context.<DbSetProperty>.Add(new ...)
+		    context.SaveChanges();	//this step updates the underlying DB
+8. Run your Web Api project. Test using Swagger.
